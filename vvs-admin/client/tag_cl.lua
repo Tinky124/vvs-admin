@@ -6,11 +6,8 @@ ESX = nil
 local currentAdminPlayers = {}
 local visibleAdmins = {}
 
-Citizen.CreateThread(function()
-    while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Citizen.Wait(0)
-    end
+CreateThread(function()
+    while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 end)
 
 RegisterNetEvent('relisoft_tag:set_admins')
@@ -55,15 +52,14 @@ function draw3DText(pos, text, options)
     ClearDrawOrigin()
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(Config.NearCheckWait)
+        Wait(Config.NearCheckWait)
         local ped = PlayerPedId()
         local pedCoords = GetEntityCoords(ped)
         for k, v in pairs(currentAdminPlayers) do
             local adminPed = GetPlayerPed(GetPlayerFromServerId(v.source))
             local adminCoords = GetEntityCoords(adminPed)
-
             local distance = #(adminCoords-pedCoords)
             if distance < (Config.SeeDistance) then
                 visibleAdmins[v.source] = v
@@ -74,10 +70,8 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function ()
+CreateThread(function ()
     while true do
-        Citizen.Wait(0)
-
         for k, v in pairs(visibleAdmins) do
             local adminPed = GetPlayerPed(GetPlayerFromServerId(v.source))
             local adminCoords = GetEntityCoords(adminPed)
@@ -103,7 +97,10 @@ Citizen.CreateThread(function ()
                         size = Config.TextSize
                     })
                 end
+            else
+                Wait(800)
             end
         end
+        Wait(10)
     end
 end)
