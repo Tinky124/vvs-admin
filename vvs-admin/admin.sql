@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD COLUMN `group2` VARCHAR(50) NULL DEFAULT 'user'
