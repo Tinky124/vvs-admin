@@ -1,1 +1,3 @@
 # vvs-admin
+Version-1.0.0
+Next version soon...
